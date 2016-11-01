@@ -4,6 +4,7 @@
 <head>
     <title>jQuery Color Block Picker</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="animate.css" />
     <script type="text/javascript" src="../vendor/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
 
@@ -12,7 +13,19 @@
 <body>
     <h1>jQuery Color Block Picker</h1>
     <head>
-      <h2>Pick a color</h2>
+      <div class="quantity">
+          <label for="colorQty">Style</label> <br>
+          <input type="radio" name="colorQty" value="20">20
+          <input type="radio" name="colorQty" value="40">40
+          <input type="radio" name="colorQty" value="60">60
+          <input type="radio" name="colorQty" value="80">80
+          <input type="radio" name="colorQty" value="100">100
+          <input type="radio" name="colorQty" value="120">120
+          <input type="radio" name="colorQty" value="140">140
+      </div>
+      <div class="prompt">
+        <h2>Pick this color: <span id="colorPick"></span><span id="result"></span></h2>
+      </div>
     </head>
     <main>
 

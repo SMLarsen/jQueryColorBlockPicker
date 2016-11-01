@@ -1,5 +1,16 @@
 .block {
-  height: 40px;
-  width: 40px;
-  display: inline-flex;
+  height: 35px;
+  width: 35px;
+  display: inline-block;
+  margin: 3px;
+}
+
+.prompt {
+  margin-left: 25px;
+  display: inline-block;
+}
+
+.quantity {
+  background-color: lightgrey;
+  display: inline-block;
 }
