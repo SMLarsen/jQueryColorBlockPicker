@@ -31,8 +31,10 @@ $('document').ready(function () {
       event.preventDefault();
       var blockSize = Number($(this).val());
       blockSize = 'size' + blockSize;
-      $('main').children().removeClass('size40 size80 size120 size160 size200 animated zoomIn');
-      $('main').children().addClass(blockSize + ' animated zoomIn');
+      $('main').children().removeClass('size40 size80 size120 size160 size200 animated rotateIn');
+      $('main').children().addClass(blockSize);
+      $('main').children().addClass(' animated zoomIn');
+      setTimeout(function() {$('main').children().removeClass('animated zoomIn');}, 2000);
     });
 // listener for clicking of blocks - if correct, wobble, if not delete
   $('main').on('click', '.block', function(event) {
