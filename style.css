@@ -1,12 +1,14 @@
 body {
-  background-color: lightgrey;
+  /*background-color: darkblue;
+  color: white;*/
   margin: 0;
   font-family: sans-serif;
 }
 
 main {
-  margin: 10px;
+  margin: 7%;
   background-color: white;
+  padding: 10px;
 }
 
 h1 {
@@ -46,7 +48,7 @@ span {
   display: inline-block;
 }
 
-.quantity, .size {
+.quantity, .size, button {
   background-color: lightgrey;
   display: inline-block;
   margin: 15px 15px 15px 30px;

@@ -9,11 +9,13 @@ var colorArray = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisqu
 $('document').ready(function () {
 
   var targetColor = 0;
+
 // listener for quantity of blocks to create
   $('input[name=colorQty]').on('change', function (event) {
     event.preventDefault();
+    colorArray = shuffleArray(colorArray); // shuffle the color array
     var blockTotal = Number($(this).val());
-    var colorIndex = randomNumber(0, blockTotal);
+    var colorIndex = randomNumber(0, blockTotal); // identify random color
     console.log(colorIndex);
     targetColor = colorArray[colorIndex];
     console.log('target: ', targetColor);
@@ -26,8 +28,8 @@ $('document').ready(function () {
       event.preventDefault();
       var blockSize = Number($(this).val());
       blockSize = 'size' + blockSize;
-      $('main').children().removeClass('size40 size80 size120 size160 size200');
-      $('main').children().addClass(blockSize);
+      $('main').children().removeClass('size40 size80 size120 size160 size200 animated zoomIn');
+      $('main').children().addClass(blockSize + ' animated zoomIn');
     });
 // listener for clicking of blocks - if correct, wobble, if not delete
   $('main').on('click', '.block', function(event) {
@@ -37,8 +39,8 @@ $('document').ready(function () {
     var $thisBlock = $(this);
     if (colorPicked === targetColor) {
       $(this).addClass('blockIt');
-      $(this).removeClass('animated wobble');
-      $(this).addClass('animated wobble');
+      $(this).removeClass('animated flip rotateIn');
+      $(this).addClass('animated flip');
       $('#result').text('Nailed It!');
       setTimeout(function() {$thisBlock.removeClass('blockIt');}, 2000);
     } else {
@@ -49,15 +51,24 @@ $('document').ready(function () {
   });
 // block builder
   function buildBlocks(colorArray, blockTotal) {
-
     for (var i = 0; i < colorArray.length && i < blockTotal; i++) {
       block = '<div class="block animated rotateIn" name="' + colorArray[i] + '" style="background-color:' + colorArray[i] + '"></div>';
       $("main").append(block);
     }
   }
-
+// generate random color index
   function randomNumber(min, max){
     return Math.floor(Math.random() * (1 + max - min) + min);
-}
+  }
+// shuffle color array so that not always same order
+  function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+      }
+      return array;
+  }
 
 });
