@@ -103,13 +103,13 @@ span {
 }
 
 .resultGood {
-  font-family: cursive;
+  font-family: 'Gloria Hallelujah', cursive;
   color: green;
   font-size: 2em;
 }
 
 .resultBad {
-  font-family: fantasy;
+  font-family: 'Gloria Hallelujah', cursive;
   color: red;
   font-size: 1em;
 }

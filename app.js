@@ -14,9 +14,10 @@ $('document').ready(function () {
   $('input[name=colorQty]').on('change', function (event) {
     event.preventDefault();
     colorArray = shuffleArray(colorArray); // shuffle the color array
+    // console.log(colorArray);
     var blockTotal = Number($(this).val());
-    var colorIndex = randomNumber(0, blockTotal); // identify random color
-    console.log(colorIndex);
+    var colorIndex = randomNumber(0, blockTotal - 1); // identify random color
+    console.log('color number', colorIndex);
     targetColor = colorArray[colorIndex];
     console.log('target: ', targetColor);
     $('#colorPick').text(targetColor);
@@ -37,15 +38,18 @@ $('document').ready(function () {
     var colorPicked = $(this).attr('name');
     console.log(colorPicked);
     var $thisBlock = $(this);
+    $('#result').removeClass();
+    console.log($('#result'));
     if (colorPicked === targetColor) { // remove existing classes, flip it, and message
-      // $(this).removeClass('blockIt animated flip rotateIn zoomIn');
-      $(this).addClass('blockIt animated flip');
+      $(this).removeClass('blockIt animated wobble rotateIn');
+      $(this).addClass('blockIt animated wobble');
+      setTimeout(function() {$thisBlock.removeClass('blockIt animated rotateIn zoomIn wobble');}, 2000);
+      $('#result').removeClass('resultBad animated wobble');
       $('#result').text('Nailed It!');
-      $('#result').addClass('resultGood');
-      setTimeout(function() {$thisBlock.removeClass('blockIt animated flip rotateIn zoomIn');}, 2000);
+      $('#result').addClass('resultGood animated wobble');
     } else { // message, rotate bad guess out and remove it
       $(this).addClass('animated rotateOut');
-      $('#result').text('What were you thinking?');
+      $('#result').text('What are you thinking?');
       $('#result').addClass('resultBad');
       setTimeout(function() {$thisBlock.remove();}, 1200);
     }
