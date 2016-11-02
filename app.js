@@ -9,7 +9,7 @@ var colorArray = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisqu
 $('document').ready(function () {
 
   var targetColor = 0;
-
+// listener for quantity of blocks to create
   $('input[name=colorQty]').on('change', function (event) {
     event.preventDefault();
     var blockTotal = Number($(this).val());
@@ -21,28 +21,37 @@ $('document').ready(function () {
     $('main').empty();
     buildBlocks(colorArray, blockTotal);
   });
-
-
+// listener for the size of each block
+    $('input[name=blockSize]').on('change', function (event) {
+      event.preventDefault();
+      var blockSize = Number($(this).val());
+      blockSize = 'size' + blockSize;
+      $('main').children().removeClass('size40 size80 size120 size160 size200');
+      $('main').children().addClass(blockSize);
+    });
+// listener for clicking of blocks - if correct, wobble, if not delete
   $('main').on('click', '.block', function(event) {
     event.preventDefault();
     var colorPicked = $(this).attr('name');
     console.log(colorPicked);
+    var $thisBlock = $(this);
     if (colorPicked === targetColor) {
+      $(this).addClass('blockIt');
       $(this).removeClass('animated wobble');
       $(this).addClass('animated wobble');
       $('#result').text('Nailed It!');
+      setTimeout(function() {$thisBlock.removeClass('blockIt');}, 2000);
     } else {
       $(this).addClass('animated rotateOut');
       $('#result').text('What were you thinking?');
-      var $thisBlock = $(this);
-      setTimeout(function() {$thisBlock.remove();}, 1500);
+      setTimeout(function() {$thisBlock.remove();}, 1200);
     }
   });
-
+// block builder
   function buildBlocks(colorArray, blockTotal) {
 
     for (var i = 0; i < colorArray.length && i < blockTotal; i++) {
-      block = '<div class="block" name="' + colorArray[i] + '" style="background-color:' + colorArray[i] + '"></div>';
+      block = '<div class="block animated rotateIn" name="' + colorArray[i] + '" style="background-color:' + colorArray[i] + '"></div>';
       $("main").append(block);
     }
   }

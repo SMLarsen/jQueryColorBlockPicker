@@ -14,7 +14,7 @@
     <h1>jQuery Color Block Picker</h1>
     <head>
       <div class="quantity">
-          <label for="colorQty">Style</label> <br>
+          <label for="colorQty">Number of Colors</label> <br>
           <input type="radio" name="colorQty" value="20">20
           <input type="radio" name="colorQty" value="40">40
           <input type="radio" name="colorQty" value="60">60
@@ -22,6 +22,14 @@
           <input type="radio" name="colorQty" value="100">100
           <input type="radio" name="colorQty" value="120">120
           <input type="radio" name="colorQty" value="140">140
+      </div>
+      <div class="size">
+          <label for="blockSize">Block Size (px)</label> <br>
+          <input type="radio" name="blockSize" value="40">40
+          <input type="radio" name="blockSize" value="80">80
+          <input type="radio" name="blockSize" value="120" checked="checked">120
+          <input type="radio" name="blockSize" value="160">160
+          <input type="radio" name="blockSize" value="200">200
       </div>
       <div class="prompt">
         <h2>Pick this color: <span id="colorPick"></span><span id="result"></span></h2>
