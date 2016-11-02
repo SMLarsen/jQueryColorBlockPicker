@@ -9,20 +9,22 @@ var colorArray = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisqu
 $('document').ready(function () {
 
   var targetColor = 0;
+  var totalGuesses = 0;
 
 // listener for quantity of blocks to create
   $('input[name=colorQty]').on('change', function (event) {
     event.preventDefault();
+
     colorArray = shuffleArray(colorArray); // shuffle the color array
-    // console.log(colorArray);
     var blockTotal = Number($(this).val());
     var colorIndex = randomNumber(0, blockTotal - 1); // identify random color
-    console.log('color number', colorIndex);
     targetColor = colorArray[colorIndex];
+    console.log('color number', colorIndex);
     console.log('target: ', targetColor);
     $('#colorPick').text(targetColor);
     $('main').empty();
     buildBlocks(colorArray, blockTotal);
+    totalGuesses = 0;
   });
 // listener for the size of each block
     $('input[name=blockSize]').on('change', function (event) {
@@ -40,16 +42,17 @@ $('document').ready(function () {
     var $thisBlock = $(this);
     $('#result').removeClass();
     console.log($('#result'));
+    totalGuesses++;
     if (colorPicked === targetColor) { // remove existing classes, flip it, and message
       $(this).removeClass('blockIt animated wobble rotateIn');
       $(this).addClass('blockIt animated wobble');
       setTimeout(function() {$thisBlock.removeClass('blockIt animated rotateIn zoomIn wobble');}, 2000);
       $('#result').removeClass('resultBad animated wobble');
-      $('#result').text('Nailed It!');
+      $('#result').text('Nailed It in ' + totalGuesses + "!");
       $('#result').addClass('resultGood animated wobble');
     } else { // message, rotate bad guess out and remove it
       $(this).addClass('animated rotateOut');
-      $('#result').text('What are you thinking?');
+      $('#result').text(totalGuesses + ' guesses!  What the heck?');
       $('#result').addClass('resultBad');
       setTimeout(function() {$thisBlock.remove();}, 1200);
     }
