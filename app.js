@@ -5,28 +5,27 @@
 var colorArray = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed ", "Indigo ", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow",
 "YellowGreen"
 ];
-
 $('document').ready(function () {
-
-  var targetColor = 0;
+  var targetColor = "";
   var totalGuesses = 0;
-  var startNumberOfColors = 10;
+  var colorsRequested = 10;
 
-  buildBlocks(shuffleArray(colorArray), startNumberOfColors);// shuffle the color array
+  getTargetColor(colorsRequested);
+
+  $('#colorPick').text(targetColor);
+  buildBlocks(shuffleArray(colorArray), colorsRequested);// shuffle the color array
 
 // listener for quantity of blocks to create
   $('input[name=colorQty]').on('change', function (event) {
     event.preventDefault();
 
     colorArray = shuffleArray(colorArray); // shuffle the color array
-    var colorsRequested = Number($(this).val()); // how many colors are requested
-    var colorIndex = randomNumber(0, colorsRequested - 1); // identify index for random color
-    targetColor = colorArray[colorIndex]; // locate target color
-    console.log('color number', colorIndex);
-    console.log('target: ', targetColor);
-    $('#colorPick').text(targetColor);
+    colorsRequested = Number($(this).val()); // how many colors are requested
+    getTargetColor(colorsRequested);
+    $('#colorPick').text(addSpaces(targetColor));
     $('main').empty();
     $('#result').text('');
+
     buildBlocks(colorArray, colorsRequested);
     totalGuesses = 0;
   });
@@ -36,7 +35,7 @@ $('document').ready(function () {
       event.preventDefault();
       var blockSize = Number($(this).val());
       blockSize = 'size' + blockSize;
-      console.log($('#result').text(''));
+
       $('main').children().removeClass('size40 size80 size120 size160 size200 animated rotateIn');
       $('main').children().addClass(blockSize);
       $('main').children().addClass(' animated zoomIn');
@@ -82,10 +81,20 @@ $('document').ready(function () {
       $("main").append(block);
     }
   }
+
+  function getTargetColor(colorsRequested) {
+    var colorIndex = randomNumber(0, colorsRequested - 1); // identify index for random color
+    targetColor = colorArray[colorIndex]; // locate target color
+  }
+
+});
+
+// utility functions
 // generate random color index
   function randomNumber(min, max){
     return Math.floor(Math.random() * (1 + max - min) + min);
   }
+
 // shuffle color array so that not always same order
   function shuffleArray(array) {
       for (var i = array.length - 1; i > 0; i--) {
@@ -97,4 +106,7 @@ $('document').ready(function () {
       return array;
   }
 
-});
+  // Add spaces before capital letters in color names for display
+  function addSpaces(string) {
+    return string.replace(/([A-Z])/g, ' $1').trim();
+  }
