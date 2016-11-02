@@ -5,15 +5,18 @@
 var colorArray = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed", "Indigo", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow",
 "YellowGreen"
 ];
+
 $('document').ready(function () {
   var targetColor = "";
   var totalGuesses = 0;
-  var colorsRequested = 10;
+  var colorsRequested = 8;
+  var message = '';
 
+  colorArray = shuffleArray(colorArray);
   getTargetColor(colorsRequested);
-
   $('#colorPick').text(targetColor);
-  buildBlocks(shuffleArray(colorArray), colorsRequested);// shuffle the color array
+  buildBlocks(colorArray, colorsRequested);// shuffle the color array
+  // console.log(targetColor, colorsRequested, colorArray);
 
 // listener for quantity of blocks to create
   $('input[name=colorQty]').on('change', function (event) {
@@ -22,7 +25,6 @@ $('document').ready(function () {
     colorArray = shuffleArray(colorArray); // shuffle the color array
     colorsRequested = Number($(this).val()); // how many colors are requested
     getTargetColor(colorsRequested);
-    console.log(colorsRequested, targetColor, colorArray);
     $('#colorPick').text(addSpaces(targetColor));
     $('main').empty();
     $('#result').text('');
@@ -56,13 +58,14 @@ $('document').ready(function () {
       $(this).removeClass('blockIt animated wobble rotateIn');
       $(this).addClass('blockIt animated wobble');
       setTimeout(function() {$thisBlock.removeClass('blockIt animated rotateIn zoomIn wobble');}, 2000);
+      message = totalGuesses === 1 ? 'Wow! You are amazing!' : 'Nailed It! But ' + (totalGuesses) + " guesses!";
       $('#result').removeClass('resultBad animated wobble');
-      $('#result').text('Nailed It in ' + totalGuesses + "!");
+      $('#result').text(message);
       $('#result').addClass('resultGood animated wobble');
     } else { // message, rotate bad guess out and remove it
       $(this).addClass('animated rotateOut');
-      var failMsg = totalGuesses === 1 ? totalGuesses + ' fail so far, ' : totalGuesses + ' fails so far, ';
-      $('#result').text(failMsg + 'what are you thinking?');
+      message = totalGuesses === 1 ? totalGuesses + ' fail so far, ' : totalGuesses + ' fails so far, ';
+      $('#result').text(message + 'what are you thinking?');
       $('#result').addClass('resultBad');
       setTimeout(function() {$thisBlock.remove();}, 1200);
     }
