@@ -37,15 +37,16 @@ $('document').ready(function () {
     var colorPicked = $(this).attr('name');
     console.log(colorPicked);
     var $thisBlock = $(this);
-    if (colorPicked === targetColor) {
-      $(this).addClass('blockIt');
-      $(this).removeClass('animated flip rotateIn');
-      $(this).addClass('animated flip');
+    if (colorPicked === targetColor) { // remove existing classes, flip it, and message
+      // $(this).removeClass('blockIt animated flip rotateIn zoomIn');
+      $(this).addClass('blockIt animated flip');
       $('#result').text('Nailed It!');
-      setTimeout(function() {$thisBlock.removeClass('blockIt');}, 2000);
-    } else {
+      $('#result').addClass('resultGood');
+      setTimeout(function() {$thisBlock.removeClass('blockIt animated flip rotateIn zoomIn');}, 2000);
+    } else { // message, rotate bad guess out and remove it
       $(this).addClass('animated rotateOut');
       $('#result').text('What were you thinking?');
+      $('#result').addClass('resultBad');
       setTimeout(function() {$thisBlock.remove();}, 1200);
     }
   });
