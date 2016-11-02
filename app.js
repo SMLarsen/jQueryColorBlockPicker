@@ -10,13 +10,15 @@ $('document').ready(function () {
 
   var targetColor = 0;
   var totalGuesses = 0;
+  var startNumberOfColors = 10;
+
+  buildBlocks(shuffleArray(colorArray), startNumberOfColors);// shuffle the color array
 
 // listener for quantity of blocks to create
   $('input[name=colorQty]').on('change', function (event) {
     event.preventDefault();
 
     colorArray = shuffleArray(colorArray); // shuffle the color array
-
     var colorsRequested = Number($(this).val()); // how many colors are requested
     var colorIndex = randomNumber(0, colorsRequested - 1); // identify index for random color
     targetColor = colorArray[colorIndex]; // locate target color
@@ -24,6 +26,7 @@ $('document').ready(function () {
     console.log('target: ', targetColor);
     $('#colorPick').text(targetColor);
     $('main').empty();
+    $('#result').text('');
     buildBlocks(colorArray, colorsRequested);
     totalGuesses = 0;
   });
@@ -33,6 +36,7 @@ $('document').ready(function () {
       event.preventDefault();
       var blockSize = Number($(this).val());
       blockSize = 'size' + blockSize;
+      console.log($('#result').text(''));
       $('main').children().removeClass('size40 size80 size120 size160 size200 animated rotateIn');
       $('main').children().addClass(blockSize);
       $('main').children().addClass(' animated zoomIn');
@@ -43,10 +47,8 @@ $('document').ready(function () {
   $('main').on('click', '.block', function(event) {
     event.preventDefault();
     var colorPicked = $(this).attr('name');
-    console.log(colorPicked);
     var $thisBlock = $(this);
     $('#result').removeClass();
-    console.log($('#result'));
     totalGuesses++;
 
     if (colorPicked === targetColor) { // remove existing classes, flip it, and message
