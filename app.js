@@ -1,6 +1,6 @@
 //  jQuery Color Block Picker
 //  Developed by:  Steve Larsen
-//  Date: 11/01/2016
+//  Date: 11/02/2016
 
 var colorArray = ["AntiqueWhite", "Aqua", "Aquamarine", "Azure", "Beige", "Bisque", "Black", "BlanchedAlmond", "Blue", "BlueViolet", "Brown", "BurlyWood", "CadetBlue", "Chartreuse", "Chocolate", "Coral", "CornflowerBlue", "Cornsilk", "Crimson", "Cyan", "DarkBlue", "DarkCyan", "DarkGoldenRod", "DarkGray", "DarkGreen", "DarkKhaki", "DarkMagenta", "DarkOliveGreen", "DarkOrange", "DarkOrchid", "DarkRed", "DarkSalmon", "DarkSeaGreen", "DarkSlateBlue", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink", "DeepSkyBlue", "DimGray", "DodgerBlue", "FireBrick", "FloralWhite", "ForestGreen", "Fuchsia", "Gainsboro", "GhostWhite", "Gold", "GoldenRod", "Gray", "Green", "GreenYellow", "HoneyDew", "HotPink", "IndianRed ", "Indigo ", "Ivory", "Khaki", "Lavender", "LavenderBlush", "LawnGreen", "LemonChiffon", "LightBlue", "LightCoral", "LightCyan", "LightGoldenRodYellow", "LightGray", "LightGreen", "LightPink", "LightSalmon", "LightSeaGreen", "LightSkyBlue", "LightSlateGray", "LightSteelBlue", "LightYellow", "Lime", "LimeGreen", "Linen", "Magenta", "Maroon", "MediumAquaMarine", "MediumBlue", "MediumOrchid", "MediumPurple", "MediumSeaGreen", "MediumSlateBlue", "MediumSpringGreen", "MediumTurquoise", "MediumVioletRed", "MidnightBlue", "MintCream", "MistyRose", "Moccasin", "NavajoWhite", "Navy", "OldLace", "Olive", "OliveDrab", "Orange", "OrangeRed", "Orchid", "PaleGoldenRod", "PaleGreen", "PaleTurquoise", "PaleVioletRed", "PapayaWhip", "PeachPuff", "Peru", "Pink", "Plum", "PowderBlue", "Purple", "RebeccaPurple", "Red", "RosyBrown", "RoyalBlue", "SaddleBrown", "Salmon", "SandyBrown", "SeaGreen", "SeaShell", "Sienna", "Silver", "SkyBlue", "SlateBlue", "SlateGray", "Snow", "SpringGreen", "SteelBlue", "Tan", "Teal", "Thistle", "Tomato", "Turquoise", "Violet", "Wheat", "White", "WhiteSmoke", "Yellow",
 "YellowGreen"
@@ -16,16 +16,18 @@ $('document').ready(function () {
     event.preventDefault();
 
     colorArray = shuffleArray(colorArray); // shuffle the color array
-    var blockTotal = Number($(this).val());
-    var colorIndex = randomNumber(0, blockTotal - 1); // identify random color
-    targetColor = colorArray[colorIndex];
+
+    var colorsRequested = Number($(this).val()); // how many colors are requested
+    var colorIndex = randomNumber(0, colorsRequested - 1); // identify index for random color
+    targetColor = colorArray[colorIndex]; // locate target color
     console.log('color number', colorIndex);
     console.log('target: ', targetColor);
     $('#colorPick').text(targetColor);
     $('main').empty();
-    buildBlocks(colorArray, blockTotal);
+    buildBlocks(colorArray, colorsRequested);
     totalGuesses = 0;
   });
+
 // listener for the size of each block
     $('input[name=blockSize]').on('change', function (event) {
       event.preventDefault();
@@ -36,6 +38,7 @@ $('document').ready(function () {
       $('main').children().addClass(' animated zoomIn');
       setTimeout(function() {$('main').children().removeClass('animated zoomIn');}, 2000);
     });
+
 // listener for clicking of blocks - if correct, wobble, if not delete
   $('main').on('click', '.block', function(event) {
     event.preventDefault();
@@ -45,6 +48,7 @@ $('document').ready(function () {
     $('#result').removeClass();
     console.log($('#result'));
     totalGuesses++;
+
     if (colorPicked === targetColor) { // remove existing classes, flip it, and message
       $(this).removeClass('blockIt animated wobble rotateIn');
       $(this).addClass('blockIt animated wobble');
@@ -59,9 +63,19 @@ $('document').ready(function () {
       setTimeout(function() {$thisBlock.remove();}, 1200);
     }
   });
+
+  // listener for hint request
+      $('button[name=buttonHint]').on('click', function (event) {
+        event.preventDefault();
+        var $thing = $('main').find("[name='" + targetColor + "']");
+        $thing.removeClass('blockIt animated wobble rotateIn rubberBand');
+        $thing.addClass('blockIt animated rubberBand');
+        setTimeout(function() {$thing.removeClass('blockIt animated rotateIn zoomIn wobble rubberBand');}, 800);
+        });
+
 // block builder
-  function buildBlocks(colorArray, blockTotal) {
-    for (var i = 0; i < colorArray.length && i < blockTotal; i++) {
+  function buildBlocks(colorArray, colorsRequested) {
+    for (var i = 0; i < colorArray.length && i < colorsRequested; i++) {
       block = '<div class="block animated rotateIn" name="' + colorArray[i] + '" style="background-color:' + colorArray[i] + '"></div>';
       $("main").append(block);
     }
