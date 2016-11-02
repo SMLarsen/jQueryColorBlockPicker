@@ -28,11 +28,14 @@ $('document').ready(function () {
     var colorPicked = $(this).attr('name');
     console.log(colorPicked);
     if (colorPicked === targetColor) {
-      $(this).addClass('animated shake');
+      $(this).removeClass('animated wobble');
+      $(this).addClass('animated wobble');
       $('#result').text('Nailed It!');
     } else {
-      $(this).remove();
+      $(this).addClass('animated rotateOut');
       $('#result').text('What were you thinking?');
+      var $thisBlock = $(this);
+      setTimeout(function() {$thisBlock.remove();}, 1500);
     }
   });
 
