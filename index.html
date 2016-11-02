@@ -17,13 +17,11 @@
       <div class="quantity">
         <h3>Step 1: Pick number of colors:</h3>
           <label for="colorQty">Number of Colors</label> <br>
-          <input type="radio" name="colorQty" value="20">20
-          <input type="radio" name="colorQty" value="40">40
-          <input type="radio" name="colorQty" value="60">60
-          <input type="radio" name="colorQty" value="80">80
-          <input type="radio" name="colorQty" value="100">100
-          <input type="radio" name="colorQty" value="120">120
-          <input type="radio" name="colorQty" value="140">140
+
+          <form id="numform" oninput="x.value=parseInt(a.value)">2
+          <input type="range" id="a" name="colorQty" value="50">140
+          <output form="numform" name="x" for="colorQty"></output>
+        </form>
       </div>
       <div class="size">
         <h3>Step 2: Pick size of blocks:</h3>
