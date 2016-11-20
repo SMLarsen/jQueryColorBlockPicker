@@ -11,6 +11,7 @@ $('document').ready(function () {
   var totalGuesses = 0;
   var colorsRequested = 8;
   var message = '';
+  var blockSize = 0;
 
   colorArray = shuffleArray(colorArray);
   getTargetColor(colorsRequested);
@@ -30,19 +31,15 @@ $('document').ready(function () {
     $('#result').text('');
 
     buildBlocks(colorArray, colorsRequested);
+    changeBlockSize(blockSize);
     totalGuesses = 0;
   });
 
 // listener for the size of each block
     $('input[name=blockSize]').on('change', function (event) {
       event.preventDefault();
-      var blockSize = Number($(this).val());
-      blockSize = 'size' + blockSize;
-
-      $('main').children().removeClass('size40 size80 size120 size160 size200 animated rotateIn');
-      $('main').children().addClass(blockSize);
-      $('main').children().addClass(' animated zoomIn');
-      setTimeout(function() {$('main').children().removeClass('animated zoomIn');}, 2000);
+      blockSize = 'size' + Number($(this).val());
+      changeBlockSize(blockSize);
     });
 
 // listener for clicking of blocks - if correct, wobble, if not delete
@@ -91,6 +88,13 @@ $('document').ready(function () {
   function getTargetColor(colorsRequested) {
     var colorIndex = randomNumber(0, colorsRequested - 1); // identify index for random color
     targetColor = colorArray[colorIndex]; // locate target color
+  }
+
+  function changeBlockSize(blockSize) {
+    $('main').children().removeClass('size40 size80 size120 size160 size200 animated rotateIn');
+    $('main').children().addClass(blockSize);
+    $('main').children().addClass(' animated zoomIn');
+    setTimeout(function() {$('main').children().removeClass('animated zoomIn');}, 2000);
   }
 
 });
